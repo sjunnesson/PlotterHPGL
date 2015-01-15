@@ -13,8 +13,9 @@ class Plotter {
   boolean DEBUG = false;
   Serial port;
   boolean PLOTTING_ENABLED = true;
-  public float DEFAULT_FONT_HEIGHT=0.15;
-  public float DEFAULT_LABEL_DIRECTION=0;
+
+  public float DEFAULT_FONT_HEIGHT = 0.2;
+  public float DEFAULT_LABEL_DIRECTION = 0; // right
 
   float characterWidth = DEFAULT_FONT_HEIGHT;
   float characterHeight = DEFAULT_FONT_HEIGHT;
@@ -41,17 +42,54 @@ class Plotter {
       port = new Serial(_this, portName, 9600);
       port.clear();
       println("Plotting to port: " + portName);
-      // port.bufferUntil(lf);
       //Initialize plotter
       write("IN;SP1;");
       println("Plotter Initialized");
       setDimensions(paperType);
+
+      // make sure that we set all the plotter variables to their
+      //default values
       setFontHeight(DEFAULT_FONT_HEIGHT);
       setLabelDirection(DEFAULT_LABEL_DIRECTION);
 
     } else {
       println("Plotting DISABLED");
     }
+  }
+
+
+
+  /***************************
+  COMMUNICATION
+  **************************/
+  void write(String hpgl) {
+    if (PLOTTING_ENABLED) {
+      while (bufferFull == true) {
+        println("Waiting for buffer to clear");
+        delay(200);
+      }
+      if (DEBUG) {
+        println(hpgl);
+      }
+      if (hpgl.length() < 50) {
+        port.write(hpgl);
+      } else {
+        println("To long HPGL string");
+      }
+      delay(20); // seems to need some time to react on full buffer
+    }
+  }
+
+
+  /***************************
+  DIMENSIONS
+  **************************/
+  void setCustomDimension(int _xMin, int _yMin, int _xMax, int _yMax) {
+    xMin = _xMin;
+    yMin = _yMin;
+    xMax = _xMax;
+    yMax = _yMax;
+    writeDimensions();
   }
 
   void setDimensions(int paperType) {
@@ -91,51 +129,29 @@ class Plotter {
     writeDimensions();
   }
 
-  void setCustomDimension(int _xMin, int _yMin, int _xMax, int _yMax) {
-    xMin = _xMin;
-    yMin = _yMin;
-    xMax = _xMax;
-    yMax = _yMax;
-    writeDimensions();
-  }
-
   void writeDimensions() {
     write("IW" + xMin + "," + yMin + "," + xMax + "," + yMax + ";");
   }
 
-  void write(String hpgl) {
-    if (PLOTTING_ENABLED) {
-      while (bufferFull == true) {
-        println("Waiting for buffer to clear");
-        delay(200);
-      }
-      if (DEBUG) {
-        println(hpgl);
-      }
-      if (hpgl.length() < 50) {
-        port.write(hpgl);
-      } else {
-        println("To long HPGL string");
-      }
-      delay(20); // seems to need some time to react on full buffer
-    }
-  }
 
+
+  /***************************
+  LABELS
+  **************************/
   void writeLabel(String _label, int xPos, int yPos) {
     if (PLOTTING_ENABLED) {
       write("PU" + xPos + "," + yPos + ";"); //Position pen
       write("LB" + _label + char(3)); //Draw label
     }
   }
-
-// set in cm
+  // set in cm
   void setFontHeight(float h) {
     characterWidth = h;
     characterHeight = h;
     write("SI" + characterWidth + "," + characterHeight + ";");
   }
 
-  float getFontHeight(){
+  float getFontHeight() {
     return characterWidth;
   }
 
@@ -149,11 +165,23 @@ class Plotter {
     writeLabel(_label, (int) xPos, (int) yPos);
   }
 
+
+
+  /***************************
+  MOVEMENT
+  **************************/
+
   void moveTo(int xPos, int yPos) {
     if (PLOTTING_ENABLED) {
       write("PU" + yPos + "," + xPos + ";"); //Go to specified position
     }
   }
+
+
+
+  /***************************
+  SHAPES
+  **************************/
 
   void line(float x1, float y1, float x2, float y2) {
     _this.line(x1 / 10, y1 / 10, x2 / 10, y2 / 10);
