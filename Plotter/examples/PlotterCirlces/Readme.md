@@ -1,3 +1,3 @@
 #Circles
 
-Draws a set of 6 different circles with different resolution
+Draws 6 sets of circles with 10 circles in each set with different resolution. 
