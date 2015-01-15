@@ -27,7 +27,8 @@ Bypass: OFF
 Duplex: Full
 Parity: 8-bits OFF
 
-To access the submenu for this settings on the HP7550a press
+To access the submenu for this settings on the HP7550a press:
+
 1. "Next Display"
 2. "Enter"
 3. "Next Display"
