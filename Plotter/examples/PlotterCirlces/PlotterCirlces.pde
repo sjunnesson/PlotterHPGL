@@ -1,3 +1,15 @@
+/***************************
+Plotter circles
+
+Draws 6 sets of circles with 10 circles in each set
+with different resolution. 
+
+made by: david sjunnesson
+2015
+sjunnesson@gmail.com
+***************************/
+
+
 import processing.serial.*;
 
 Plotter plotter; // Create a plotter object
@@ -12,13 +24,14 @@ void setup() {
 
   //Select a serial port
   String portName = Serial.list()[3]; //make sure you pick the right one
+  
   //instantiate the plotter object with 
   //the plotter serial port name, a reference to this PApplet and what type of paper that is being used
   // 0=a4 1=a3 2=A 3=B
   plotter = new Plotter(portName, this, 2); 
 
   for (int i = 0; i < 10; ++i) {
-    plotter.circle(3000 + i * 50, 2000 + i * 50, 500); // defaults to 0.5
+    plotter.circle(3000 + i * 50, 2000 + i * 50, 500); // resolution defaults to 0.5
     plotter.circle(5000 + i * 50, 2000 + i * 50, 500, 5);
     plotter.circle(7000 + i * 50, 2000 + i * 50, 500, 10);
 
