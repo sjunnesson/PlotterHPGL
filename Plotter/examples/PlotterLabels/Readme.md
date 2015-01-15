@@ -1,3 +1,3 @@
-#Circles
+#Labels
 
-Draws a set of 6 different circles with different resolution
+Draws 10 labels in a radial pattern in three different font sizes.
