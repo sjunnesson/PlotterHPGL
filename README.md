@@ -21,7 +21,7 @@ On the Plotter you need to setup this configuration:
 
 * Baudrate 9600
 * Handshake: Xon/Xoff Direct
-* Data flow: Local Standalone
+* Data flow: Local Standalone (this seems to reset after power down of plotter on my machine)
 * Bypass: OFF
 * Duplex: Full
 * Parity: 8-bits OFF
