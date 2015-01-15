@@ -128,7 +128,7 @@ class Plotter {
     }
   }
 
-// should be 
+// set in cm
   void setFontHeight(float h) {
     characterWidth = h;
     characterHeight = h;

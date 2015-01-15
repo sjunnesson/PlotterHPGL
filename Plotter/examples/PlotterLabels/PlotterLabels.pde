@@ -30,20 +30,23 @@ void setup() {
   // 0=a4 1=a3 2=A 3=B
   plotter = new Plotter(portName, this, 2);
 
+  // set the font size to 0.15 cm
+  plotter.setFontHeight(0.15);
+
   // create a label and rotate around 360 degrees
   for (int i = 0; i < 10; ++i) {
     plotter.setLabelDirection(map(i, 0, 10, 0, 360));
     plotter.writeLabel("--SMALL->", plotter.xMax / 2 - 3000, plotter.yMax * 0.25);
   }
 
-  // increase the font size
+  // increase the font size to 0.25cm
   plotter.setFontHeight(0.25);
   for (int i = 0; i < 10; ++i) {
     plotter.setLabelDirection(map(i, 0, 10, 0, 360));
     plotter.writeLabel("--MEDIUM->", plotter.xMax / 2, plotter.yMax * 0.5);
   }
 
-  // and once again increase the font size
+  // and once again increase the font size to 0.35 cm 
   plotter.setFontHeight(0.35);
   for (int i = 0; i < 10; ++i) {
     plotter.setLabelDirection(map(i, 0, 10, 0, 360));
